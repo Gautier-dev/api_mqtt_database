@@ -4,14 +4,21 @@ import os
 
 
 #Connect to our postgre database
-conn = psycopg2.connect(dbname=os.environ['DBNAME'], user=os.environ['POSTGRES_USER'], password=os.environ['POSTGRES_PASSWORD'], host=os.environ['URL_DB'], port="5432")
+try:
+    conn = psycopg2.connect(dbname=os.environ['DBNAME'], user=os.environ['POSTGRES_USER'], password=os.environ['POSTGRES_PASSWORD'], host=os.environ['URL_DB'], port="5432")
+except:
+    print("Unable to connect")
+
+print("Connected")
 
 # Cursor used to perform database operation
 cur = conn.cursor()
 
 # Create the table used to store the data
 
-cur.execute("CREATE TABLE test (id serial PRIMARY KEY, data varchar, data varchar);")
+cur.execute("CREATE TABLE test (id serial PRIMARY KEY, topic varchar(100), data varchar(100));")
+
+print("Table created")
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -45,3 +52,4 @@ client.loop_forever()
 
 cur.close()
 conn.close()
+print("connection close")
