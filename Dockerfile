@@ -1,4 +1,4 @@
-FROM debian
+FROM debian AS builder
 ARG DBNAME=${DBNAME}
 ARG POSTGRES_USER=${POSTGRES_USER}
 ARG POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -11,7 +11,10 @@ RUN apt-get install python3-pip -y
 RUN pip3 install paho-mqtt
 RUN pip3 install psycopg2-binary
 COPY . /api/
+
+FROM debian
 WORKDIR /api
+COPY --from=builder /api ./
 CMD ["python3", "mqtt_to_DB.py"]
 
 
