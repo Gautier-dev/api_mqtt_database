@@ -12,10 +12,12 @@ try:
     print("Connected")
     cur = conn.cursor()
     cur.execute("SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema';")
-    
     tables = cur.fetchall()
     if (tables == []):
-        cur.execute("CREATE TABLE test (id serial PRIMARY KEY, topic varchar(100), data varchar(100));")
+        cur.execute("CREATE TABLE clients (id_client serial PRIMARY KEY, nom varchar(50));")
+        cur.execute("CREATE TABLE maisons (id_maison serial PRIMARY KEY, ip_rpi varchar(50), id_client int, adresse varchar(100), FOREIGN KEY id_client REFERENCES clients(id_client));")
+        cur.execute("CREATE TABLE capteurs (id_capteur serial PRIMARY KEY, id_maison int, nom varchar(50), topic varchar(100), FOREIGN KEY id_maison REFERENCES clients(id_maison));")
+        cur.execute("CREATE TABLE mesures (id_capteur, id serial PRIMARY KEY, date varchar(20), data varchar(100), FOREIGN KEY id_capteur REFERENCES clients(id_capteur));")
         print("Table created")
     else:
         print(tables)
