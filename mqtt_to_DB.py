@@ -4,7 +4,7 @@ import os
 
 
 #Connect to our postgre database
-conn = psycopg2.connect(dbname=os.environ['DBNAME'], user=os.environ['POSTGRES_USER'], password=os.environ['POSTGRES_PASSWORD'], host=os.environ['URL_DB'])
+conn = psycopg2.connect(dbname=os.environ['DBNAME'], user=os.environ['POSTGRES_USER'], password=os.environ['POSTGRES_PASSWORD'], host="http://srv-captain--surveillancedevieux-postgresql-db/")
 
 # Cursor used to perform database operation
 cur = conn.cursor()
