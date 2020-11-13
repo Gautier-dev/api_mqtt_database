@@ -10,6 +10,7 @@ RUN apt-get install python3 -y
 RUN apt-get install python3-pip -y
 RUN pip3 install paho-mqtt
 RUN pip3 install psycopg2-binary
+RUN pip3 install pyping
 COPY . /api/
 
 FROM debian
