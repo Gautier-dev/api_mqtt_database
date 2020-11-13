@@ -11,7 +11,8 @@ try:
                             password=os.environ['POSTGRES_PASSWORD'], host=os.environ['URL_DB'], port="5432")
     print("Connected")
     cur = conn.cursor()
-    cur.execute("show tables;")
+    cur.execute("SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema';")
+    
     tables = cur.fetchall()
     if (tables == []):
         cur.execute("CREATE TABLE test (id serial PRIMARY KEY, topic varchar(100), data varchar(100));")
