@@ -1,22 +1,22 @@
 import paho.mqtt.client as mqtt
 import psycopg2
+import os
+
 
 #Connect to our postgre database
-conn = psycopg2.connect("dbname=test user=postgres")
+conn = psycopg2.connect(dbname=os.environ['DBNAME'], user=os.environ['POSTGRES_USER'], password=os.environ['POSTGRES_PASSWORD'], host=os.environ['URL_DB'])
 
 # Cursor used to perform database operation
 cur = conn.cursor()
 
 # Create the table used to store the data
 
-cur.execute("CREATE TABLE test (id serial PRIMARY KEY, data varchar);")
+cur.execute("CREATE TABLE test (id serial PRIMARY KEY, data varchar, data varchar);")
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
-
-    
-
+    cur.execute("INSERT INTO test (topic, data) VALUES (%s,%s)", (str(rc), str(rc)))
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
     client.subscribe("$SYS/#")
@@ -35,7 +35,7 @@ client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
 
-client.connect("mqtt.eclipse.org", 1883, 60)
+client.connect(os.environ['URL_MQTT'], os.environ['PORT_MQTT'], 60)
 
 # Blocking call that processes network traffic, dispatches callbacks and
 # handles reconnecting.
