@@ -3,15 +3,21 @@ import psycopg2
 import os
 
 
+
+
 # Connect to our postgre database
 try:
     conn = psycopg2.connect(dbname=os.environ['DBNAME'], user=os.environ['POSTGRES_USER'],
                             password=os.environ['POSTGRES_PASSWORD'], host=os.environ['URL_DB'], port="5432")
     print("Connected")
     cur = conn.cursor()
-    cur.execute(
-        "CREATE TABLE test (id serial PRIMARY KEY, topic varchar(100), data varchar(100));")
-    print("Table created")
+    cur.execute("show tables;")
+    tables = cur.fetchall()
+    if (tables == []):
+        cur.execute("CREATE TABLE test (id serial PRIMARY KEY, topic varchar(100), data varchar(100));")
+        print("Table created")
+    else:
+        print(tables)
 except:
     print("Unable to connect")
 
@@ -25,6 +31,7 @@ except:
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
+
     cur.execute("INSERT INTO test (topic, data) VALUES (%s,%s)",
                 (str(rc), str(rc)))
     # Subscribing in on_connect() means that if we lose the connection and
