@@ -1,54 +1,59 @@
 import paho.mqtt.client as mqtt
 import psycopg2
 import os
-
-
-
+import datetime
 
 # Connect to our postgre database
 try:
     conn = psycopg2.connect(dbname=os.environ['DBNAME'], user=os.environ['POSTGRES_USER'],
                             password=os.environ['POSTGRES_PASSWORD'], host=os.environ['URL_DB'], port="5432")
     print("Connected")
+    # Cursor used to perform database operation
     cur = conn.cursor()
     cur.execute("SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema';")
+
+    # Take every rows in the cursor and put them into an array
     tables = cur.fetchall()
     if (tables == []):
-        cur.execute("CREATE TABLE clients (id_client serial PRIMARY KEY, nom varchar(50));")
-        cur.execute("CREATE TABLE maisons (id_maison serial PRIMARY KEY, ip_rpi varchar(50), id_client int, adresse varchar(100), FOREIGN KEY id_client REFERENCES clients(id_client));")
-        cur.execute("CREATE TABLE capteurs (id_capteur serial PRIMARY KEY, id_maison int, nom varchar(50), topic varchar(100), FOREIGN KEY id_maison REFERENCES clients(id_maison));")
-        cur.execute("CREATE TABLE mesures (id_capteur, id serial PRIMARY KEY, date varchar(20), data varchar(100), FOREIGN KEY id_capteur REFERENCES clients(id_capteur));")
+        # Create the table used to store the data
+        cur.execute("CREATE TABLE User (id serial PRIMARY KEY, first_name varchar(50), last_name varchar(50), email varchar(50), phone_number varchar(50));")
+        cur.execute("CREATE TABLE Pathology (id serial PRIMARY KEY, name varchar(50), description varchar(50), FOREIGN KEY id_user REFERENCES User(id));")
+        cur.execute("CREATE TABLE Contact (id serial PRIMARY KEY, first_name varchar(50), last_name varchar(50), email varchar(50), phone_number varchar(50), relationship varchar(50), FOREIGN KEY id_user REFERENCES User(id));")
+        cur.execute("CREATE TABLE House (id serial PRIMARY KEY, adresse varchar(100), city varchar(50), zip_code varchar(5), FOREIGN KEY id_user REFERENCES User(id));")
+        cur.execute("CREATE TABLE Gateway (id serial PRIMARY KEY, FOREIGN KEY id_house REFERENCES House(id));")
+        cur.execute("CREATE TABLE Sensor (id serial PRIMARY KEY, type varchar(50), FOREIGN KEY id_gateway REFERENCES Gateway(id));")
+        cur.execute("CREATE TABLE Measure (id int PRIMARY KEY, data varchar(50), date varchar(20), FOREIGN KEY id_sensor REFERENCES Sensor(id));")
+
+        cur.execute("INSERT INTO User (first_name, last_name, email, phone_number) VALUES (%s,%s,%s,%s)", ("Gautier", "Bonnemaison", "gautier.bonnemaison@gmail.com", "1111111111"))
+        cur.execute("INSERT INTO Pathology (name, description, id_user) VALUES (%s,%s,%d)", ("Anomalie cardiaque", "Bonjour", 1))
+        cur.execute("INSERT INTO Contact (first_name, last_name, email, phone_number, relationship, id_user) VALUES (%s,%s,%s,%s,%d)", ("François", "Rault", "francois.rlt@orange.fr", "0000000000", 1))
+        cur.execute("INSERT INTO House (adresse, city, zip_code, id_user) VALUES (%s,%s,%s,%d)", ("Champ de Mars, 5 Avenue Anatole France", "Paris", "75007", 1))
+        cur.execute("INSERT INTO Gateway (id_house) VALUES (%d)", (1))
+        cur.execute("INSERT INTO Sensor (type, id_gateway) VALUES (%s, %d)", ("cardiaque", 1))
+
         print("Table created")
     else:
         print(tables)
 except:
     print("Unable to connect")
 
-
-# Cursor used to perform database operation
-
-
-# Create the table used to store the data
-
-
+        
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
 
-    cur.execute("INSERT INTO test (topic, data) VALUES (%s,%s)",
-                (str(rc), str(rc)))
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
-    client.subscribe("$SYS/#")
+    client.subscribe("1")
 
 # The callback for when a PUBLISH message is received from the server.
 
 
 def on_message(client, userdata, msg):
-    print(msg.topic+" "+str(msg.payload))
+
+    print("Inserted the following data, "+str(msg.payload)+" from "+msg.topic+" into the DB")
     # Add a value into the database
-    cur.execute("INSERT INTO test (topic, data) VALUES (%s,%s)",
-                (msg.topic, str(msg.payload)))
+    cur.execute("INSERT INTO Measure (data, date, id_sendor) VALUES (%s,%s,%d)", (str(msg.payload), str(datetime.datetime.now()), 1))
     # Make it persistent
     conn.commit()
 
@@ -64,7 +69,6 @@ client.connect(os.environ['URL_MQTT'], int(os.environ['PORT_MQTT']), 60)
 # Other loop*() functions are available that give a threaded interface and a
 # manual interface.
 client.loop_forever()
-
 cur.close()
 conn.close()
-print("connection close")
+print("connection closed")
