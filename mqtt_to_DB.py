@@ -2,6 +2,18 @@ import paho.mqtt.client as mqtt
 import psycopg2
 import os
 import datetime
+"""
+import yagmail
+yagmail.register('mygmailusername', 'mygmailpassword')
+yag = yagmail.SMTP("bonnegaut@gmail.com")
+
+yag.send(
+    to=receiver,
+    subject="Yagmail test with attachment",
+    contents="bonjour", 
+    
+)
+"""
 
 # Connect to our postgre database
 try:
@@ -50,7 +62,6 @@ def on_connect(client, userdata, flags, rc):
 
 
 def on_message(client, userdata, msg):
-
     print("Inserted the following data, "+str(msg.payload)+" from "+msg.topic+" into the DB")
     # Add a value into the database
     cur.execute("INSERT INTO Measure (data, date, id_sendor) VALUES (%s,%s,%d)", (str(msg.payload), str(datetime.datetime.now()), 1))

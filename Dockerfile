@@ -12,6 +12,6 @@ RUN pip3 install paho-mqtt
 RUN pip3 install psycopg2-binary
 COPY . /api/
 WORKDIR /api
-CMD ["python3", "mqtt_to_DB.py"]
+CMD ["python3", "/api/mqtt_to_DB.py"]
 
 
