@@ -13,6 +13,6 @@ RUN pip3 install paho-mqtt
 RUN pip3 install psycopg2-binary
 RUN pip3 install yagmail
 COPY . /api/
-RUN python3 /api/mqtt_to_DB.py
+CMD ["python3", "/api/mqtt_to_DB.py"]
 
 
