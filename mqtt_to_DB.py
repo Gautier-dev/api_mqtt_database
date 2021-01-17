@@ -15,9 +15,11 @@ yag.send(
 
 # Connect to our postgre database
 try:
+    print(os.environ['DBNAME'],os.environ['POSTGRES_USER'], os.environ['POSTGRES_PASSWORD'], os.environ['URL_DB'])
     conn = psycopg2.connect(dbname=os.environ['DBNAME'], user=os.environ['POSTGRES_USER'],
                             password=os.environ['POSTGRES_PASSWORD'], host=os.environ['URL_DB'], port="5432")
 except psycopg2.OperationalError as e:
+    print("Unable to connect")
     print(e)
 
 # Cursor used to perform database operation
