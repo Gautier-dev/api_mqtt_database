@@ -10,6 +10,7 @@ RUN apt-get install python3 -y
 RUN apt-get install python3-pip -y
 RUN pip3 install paho-mqtt
 RUN pip3 install psycopg2-binary
+RUN pip3 install yagmail
 COPY . /api/
 WORKDIR /api
 CMD ["python3", "/api/mqtt_to_DB.py"]
