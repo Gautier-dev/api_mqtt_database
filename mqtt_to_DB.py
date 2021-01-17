@@ -2,10 +2,9 @@ import paho.mqtt.client as mqtt
 import psycopg2
 import os
 import datetime
-
 import yagmail
 
-yag = yagmail.SMTP('gautierbonappartement@gmail.com', 'prjiot2020')
+yag = yagmail.SMTP('gautierbonneappartement@gmail.com', 'prjiot2020')
 
 yag.send(
     to="bonnegaut@gmail.com",
