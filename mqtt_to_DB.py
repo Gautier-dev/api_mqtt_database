@@ -17,7 +17,6 @@ yag.send(
 try:
     conn = psycopg2.connect(dbname=os.environ['DBNAME'], user=os.environ['POSTGRES_USER'],
                             password=os.environ['POSTGRES_PASSWORD'], host=os.environ['URL_DB'], port="5432")
-    print("Connected")
 except psycopg2.Error as e:
     print(e.pgerror)
 
