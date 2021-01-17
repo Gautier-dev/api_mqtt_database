@@ -43,7 +43,7 @@ if (tables == []):
     cur.execute("INSERT INTO house (adresse, city, zip_code, id_user) VALUES (%s,%s,%s,%s)", ("Champ de Mars, 5 Avenue Anatole France", "Paris", "75007", 1))
     cur.execute("INSERT INTO gateway (id_house) VALUES (%s)", (1,))
     cur.execute("INSERT INTO sensor (type, id_gateway) VALUES (%s, %s)", ("cardiaque", 1))
-    cur.commit()
+    conn.commit()
     print("Table created")
 else:
     print(tables)
