@@ -20,7 +20,7 @@ print(os.environ['DBPORT'])
 # Connect to our postgre database
 try:
     conn = psycopg2.connect(dbname=os.environ['DBNAME'], user=os.environ['POSTGRES_USER'],
-                            password=os.environ['POSTGRES_PASSWORD'], host=os.environ['URL_DB'], port=os.environ['DBPORT'])
+                            password=os.environ['POSTGRES_PASSWORD'], host="surveillancedevieux-postgresql-db.apps.asidiras.dev", port="80")
 except psycopg2.OperationalError as e:
     print(e)
 
