@@ -18,8 +18,8 @@ try:
     conn = psycopg2.connect(dbname=os.environ['DBNAME'], user=os.environ['POSTGRES_USER'],
                             password=os.environ['POSTGRES_PASSWORD'], host=os.environ['URL_DB'], port="5432")
     print("Connected")
-except:
-    print("Unable to connect")
+except psycopg2.Error as e:
+    print(e.pgerror)
 
 # Cursor used to perform database operation
 cur = conn.cursor()
