@@ -15,14 +15,8 @@ yag.send(
 
 # Connect to our postgre database
 try:
-<<<<<<< HEAD
-    print(os.environ['DBNAME'],os.environ['POSTGRES_USER'], os.environ['POSTGRES_PASSWORD'], os.environ['URL_DB'])
-    conn = psycopg2.connect(dbname=os.environ['DBNAME'], user=os.environ['POSTGRES_USER'],
-                            password=os.environ['POSTGRES_PASSWORD'], host=os.environ['URL_DB'], port=os.environ['DBPORT'])
-=======
     conn = psycopg2.connect(dbname="info_capteur", user="surveillancedevieux",
                             password="surveillancedevieux", host="surveillancedevieux-postgresql-db.apps.asidiras.dev", port="5432")
->>>>>>> 7cae60869519630cc7c69e74ee9ac1cdea5af1da
 except psycopg2.OperationalError as e:
     print("Unable to connect")
     print(e)
@@ -35,13 +29,13 @@ cur.execute("SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog'
 tables = cur.fetchall()
 if (tables == []):
     # Create the table used to store the data
-    cur.execute("CREATE TABLE User (id serial PRIMARY KEY, first_name varchar(50), last_name varchar(50), email varchar(50), phone_number varchar(50));")
-    cur.execute("CREATE TABLE Pathology (id serial PRIMARY KEY, name varchar(50), description varchar(50), FOREIGN KEY id_user REFERENCES User(id));")
-    cur.execute("CREATE TABLE Contact (id serial PRIMARY KEY, first_name varchar(50), last_name varchar(50), email varchar(50), phone_number varchar(50), relationship varchar(50), FOREIGN KEY id_user REFERENCES User(id));")
-    cur.execute("CREATE TABLE House (id serial PRIMARY KEY, adresse varchar(100), city varchar(50), zip_code varchar(5), FOREIGN KEY id_user REFERENCES User(id));")
-    cur.execute("CREATE TABLE Gateway (id serial PRIMARY KEY, FOREIGN KEY id_house REFERENCES House(id));")
-    cur.execute("CREATE TABLE Sensor (id serial PRIMARY KEY, type varchar(50), FOREIGN KEY id_gateway REFERENCES Gateway(id));")
-    cur.execute("CREATE TABLE Measure (id int PRIMARY KEY, data varchar(50), date varchar(20), FOREIGN KEY id_sensor REFERENCES Sensor(id));")
+    cur.execute("CREATE TABLE User (id SERIAL PRIMARY KEY, first_name varchar(50), last_name varchar(50), email varchar(50), phone_number varchar(50));")
+    cur.execute("CREATE TABLE Pathology (id SERIAL PRIMARY KEY, name varchar(50), description varchar(50), FOREIGN KEY id_user REFERENCES User(id));")
+    cur.execute("CREATE TABLE Contact (id SERIAL PRIMARY KEY, first_name varchar(50), lastname varchar(50), email varchar(50), phone_number varchar(50), relationship varchar(50), FOREIGN KEY id_user REFERENCES User(id));")
+    cur.execute("CREATE TABLE House (id SERIAL PRIMARY KEY, adresse varchar(100), city varchar(50), zip_code varchar(5), FOREIGN KEY id_user REFERENCES User(id));")
+    cur.execute("CREATE TABLE Gateway (id SERIAL PRIMARY KEY, FOREIGN KEY id_house REFERENCES House(id));")
+    cur.execute("CREATE TABLE Sensor (id SERIAL PRIMARY KEY, type varchar(50), FOREIGN KEY id_gateway REFERENCES Gateway(id));")
+    cur.execute("CREATE TABLE Measure (id SERIAL PRIMARY KEY, data varchar(50), date varchar(20), FOREIGN KEY id_sensor REFERENCES Sensor(id));")
 
     cur.execute("INSERT INTO User (first_name, last_name, email, phone_number) VALUES (%s,%s,%s,%s)", ("Gautier", "Bonnemaison", "gautier.bonnemaison@gmail.com", "1111111111"))
     cur.execute("INSERT INTO Pathology (name, description, id_user) VALUES (%s,%s,%d)", ("Anomalie cardiaque", "Bonjour", 1))
