@@ -31,7 +31,7 @@ if (tables == []):
     # Create the table used to store the data
     cur.execute("CREATE TABLE users (id SERIAL PRIMARY KEY, first_name varchar(50), last_name varchar(50), email varchar(50), phone_number varchar(50));")
     cur.execute("CREATE TABLE pathology (id SERIAL PRIMARY KEY, name varchar(50), description varchar(50), id_user INT, FOREIGN KEY(id_user) REFERENCES users(id));")
-    cur.execute("CREATE TABLE contact (id SERIAL PRIMARY KEY, first_name varchar(50), lastname varchar(50), email varchar(50), phone_number varchar(50), relationship varchar(50), id_user INT, FOREIGN KEY(id_user) REFERENCES users(id));")
+    cur.execute("CREATE TABLE contact (id SERIAL PRIMARY KEY, first_name varchar(50), last_name varchar(50), email varchar(50), phone_number varchar(50), relationship varchar(50), id_user INT, FOREIGN KEY(id_user) REFERENCES users(id));")
     cur.execute("CREATE TABLE house (id SERIAL PRIMARY KEY, adresse varchar(100), city varchar(50), zip_code varchar(5), id_user INT, FOREIGN KEY(id_user) REFERENCES users(id));")
     cur.execute("CREATE TABLE gateway (id SERIAL PRIMARY KEY, id_house INT, FOREIGN KEY(id_house) REFERENCES house(id));")
     cur.execute("CREATE TABLE sensor (id SERIAL PRIMARY KEY, type varchar(50), id_gateway INT, FOREIGN KEY(id_gateway) REFERENCES gateway(id));")
