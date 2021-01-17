@@ -12,15 +12,11 @@ yag.send(
     contents="bonjour"
 )
 """
-print(os.environ['DBNAME'])
-print(os.environ['POSTGRES_USER'])
-print(os.environ['POSTGRES_PASSWORD'])
-print(os.environ['URL_DB'])
-print(os.environ['DBPORT'])
+
 # Connect to our postgre database
 try:
-    conn = psycopg2.connect(dbname=os.environ['DBNAME'], user=os.environ['POSTGRES_USER'],
-                            password=os.environ['POSTGRES_PASSWORD'], host="surveillancedevieux-postgresql-db.apps.asidiras.dev", port="80")
+    conn = psycopg2.connect(dbname="info_capteur", user="surveillancedevieux",
+                            password="surveillancedevieux", host="surveillancedevieux-postgresql-db.apps.asidiras.dev", port="5432")
 except psycopg2.OperationalError as e:
     print(e)
 
