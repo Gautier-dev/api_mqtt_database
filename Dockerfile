@@ -5,6 +5,7 @@ ARG POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 ARG URL_DB=${URL_DB}
 ARG URL_MQTT=${URL_MQTT}
 ARG PORT_MQTT=${PORT_MQTT}
+ARG DBPORT=${DBPORT}
 RUN apt-get update
 RUN apt-get install python3 -y
 RUN apt-get install python3-pip -y
