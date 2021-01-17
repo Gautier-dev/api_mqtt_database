@@ -2,18 +2,17 @@ import paho.mqtt.client as mqtt
 import psycopg2
 import os
 import datetime
-"""
+
 import yagmail
-yagmail.register('mygmailusername', 'mygmailpassword')
-yag = yagmail.SMTP("bonnegaut@gmail.com")
+
+yag = yagmail.SMTP('gautierbonappartement@gmail.com', 'prjiot2020')
 
 yag.send(
-    to=receiver,
-    subject="Yagmail test with attachment",
-    contents="bonjour", 
-    
+    to="bonnegaut@gmail.com",
+    subject="test",
+    contents="bonjour"
 )
-"""
+
 
 # Connect to our postgre database
 try:
@@ -82,4 +81,5 @@ client.connect(os.environ['URL_MQTT'], int(os.environ['PORT_MQTT']), 60)
 client.loop_forever()
 cur.close()
 conn.close()
+
 print("connection closed")
