@@ -12,7 +12,10 @@ yag.send(
     contents="bonjour"
 )
 """
-
+print(os.environ['DBNAME'])
+print(os.environ['POSTGRES_USER'])
+print(os.environ['POSTGRES_PASSWORD'])
+print(os.environ['URL_DB'])
 # Connect to our postgre database
 try:
     print(os.environ['DBNAME'],os.environ['POSTGRES_USER'], os.environ['POSTGRES_PASSWORD'], os.environ['URL_DB'])
