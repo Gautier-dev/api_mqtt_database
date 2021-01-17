@@ -3,7 +3,7 @@ import psycopg2
 import os
 import datetime
 import yagmail
-
+"""
 yag = yagmail.SMTP('gautierbonneappartement@gmail.com', 'prjiot2020')
 
 yag.send(
@@ -11,7 +11,7 @@ yag.send(
     subject="test",
     contents="bonjour"
 )
-
+"""
 
 # Connect to our postgre database
 try:
