@@ -29,20 +29,20 @@ cur.execute("SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog'
 tables = cur.fetchall()
 if (tables == []):
     # Create the table used to store the data
-    cur.execute("CREATE TABLE User (id SERIAL PRIMARY KEY, first_name varchar(50), last_name varchar(50), email varchar(50), phone_number varchar(50));")
-    cur.execute("CREATE TABLE Pathology (id SERIAL PRIMARY KEY, name varchar(50), description varchar(50), FOREIGN KEY id_user REFERENCES User(id));")
-    cur.execute("CREATE TABLE Contact (id SERIAL PRIMARY KEY, first_name varchar(50), lastname varchar(50), email varchar(50), phone_number varchar(50), relationship varchar(50), FOREIGN KEY id_user REFERENCES User(id));")
-    cur.execute("CREATE TABLE House (id SERIAL PRIMARY KEY, adresse varchar(100), city varchar(50), zip_code varchar(5), FOREIGN KEY id_user REFERENCES User(id));")
-    cur.execute("CREATE TABLE Gateway (id SERIAL PRIMARY KEY, FOREIGN KEY id_house REFERENCES House(id));")
-    cur.execute("CREATE TABLE Sensor (id SERIAL PRIMARY KEY, type varchar(50), FOREIGN KEY id_gateway REFERENCES Gateway(id));")
-    cur.execute("CREATE TABLE Measure (id SERIAL PRIMARY KEY, data varchar(50), date varchar(20), FOREIGN KEY id_sensor REFERENCES Sensor(id));")
+    cur.execute("CREATE TABLE user (id SERIAL PRIMARY KEY, first_name varchar(50), last_name varchar(50), email varchar(50), phone_number varchar(50));")
+    cur.execute("CREATE TABLE pathology (id SERIAL PRIMARY KEY, name varchar(50), description varchar(50), FOREIGN KEY id_user REFERENCES user(id));")
+    cur.execute("CREATE TABLE contact (id SERIAL PRIMARY KEY, first_name varchar(50), lastname varchar(50), email varchar(50), phone_number varchar(50), relationship varchar(50), FOREIGN KEY id_user REFERENCES user(id));")
+    cur.execute("CREATE TABLE house (id SERIAL PRIMARY KEY, adresse varchar(100), city varchar(50), zip_code varchar(5), FOREIGN KEY id_user REFERENCES user(id));")
+    cur.execute("CREATE TABLE gateway (id SERIAL PRIMARY KEY, FOREIGN KEY id_house REFERENCES house(id));")
+    cur.execute("CREATE TABLE sensor (id SERIAL PRIMARY KEY, type varchar(50), FOREIGN KEY id_gateway REFERENCES gateway(id));")
+    cur.execute("CREATE TABLE measure (id SERIAL PRIMARY KEY, data varchar(50), date varchar(20), FOREIGN KEY id_sensor REFERENCES sensor(id));")
 
-    cur.execute("INSERT INTO User (first_name, last_name, email, phone_number) VALUES (%s,%s,%s,%s)", ("Gautier", "Bonnemaison", "gautier.bonnemaison@gmail.com", "1111111111"))
-    cur.execute("INSERT INTO Pathology (name, description, id_user) VALUES (%s,%s,%d)", ("Anomalie cardiaque", "Bonjour", 1))
-    cur.execute("INSERT INTO Contact (first_name, last_name, email, phone_number, relationship, id_user) VALUES (%s,%s,%s,%s,%d)", ("François", "Rault", "francois.rlt@orange.fr", "0000000000", 1))
-    cur.execute("INSERT INTO House (adresse, city, zip_code, id_user) VALUES (%s,%s,%s,%d)", ("Champ de Mars, 5 Avenue Anatole France", "Paris", "75007", 1))
-    cur.execute("INSERT INTO Gateway (id_house) VALUES (%d)", (1))
-    cur.execute("INSERT INTO Sensor (type, id_gateway) VALUES (%s, %d)", ("cardiaque", 1))
+    cur.execute("INSERT INTO user (first_name, last_name, email, phone_number) VALUES (%s,%s,%s,%s)", ("Gautier", "Bonnemaison", "gautier.bonnemaison@gmail.com", "1111111111"))
+    cur.execute("INSERT INTO pathology (name, description, id_user) VALUES (%s,%s,%d)", ("Anomalie cardiaque", "Bonjour", 1))
+    cur.execute("INSERT INTO contact (first_name, last_name, email, phone_number, relationship, id_user) VALUES (%s,%s,%s,%s,%d)", ("François", "Rault", "francois.rlt@orange.fr", "0000000000", 1))
+    cur.execute("INSERT INTO house (adresse, city, zip_code, id_user) VALUES (%s,%s,%s,%d)", ("Champ de Mars, 5 Avenue Anatole France", "Paris", "75007", 1))
+    cur.execute("INSERT INTO gateway (id_house) VALUES (%d)", (1))
+    cur.execute("INSERT INTO sensor (type, id_gateway) VALUES (%s, %d)", ("cardiaque", 1))
 
     print("Table created")
 else:
