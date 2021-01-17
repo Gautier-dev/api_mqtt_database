@@ -37,16 +37,17 @@ if (tables == []):
     cur.execute("CREATE TABLE sensor (id SERIAL PRIMARY KEY, type varchar(50), id_gateway INT, FOREIGN KEY(id_gateway) REFERENCES gateway(id));")
     cur.execute("CREATE TABLE measure (id SERIAL PRIMARY KEY, data varchar(50), date varchar(20), id_sensor INT, FOREIGN KEY(id_sensor) REFERENCES sensor(id));")
 
-    cur.execute("INSERT INTO users (first_name, last_name, email, phone_number) VALUES (%s,%s,%s,%s)", ("Gautier", "Bonnemaison", "gautier.bonnemaison@gmail.com", "1111111111"))
-    cur.execute("INSERT INTO pathology (name, description, id_user) VALUES (%s,%s,%s)", ("Anomalie cardiaque", "Bonjour", 1))
-    cur.execute("INSERT INTO contact (first_name, last_name, email, phone_number, relationship, id_user) VALUES (%s,%s,%s,%s,%s,%s)", ("François", "Rault", "francois.rlt@orange.fr", "0000000000", "Friend", 1))
-    cur.execute("INSERT INTO house (adresse, city, zip_code, id_user) VALUES (%s,%s,%s,%s)", ("Champ de Mars, 5 Avenue Anatole France", "Paris", "75007", 1))
-    cur.execute("INSERT INTO gateway (id_house) VALUES (%s)", (1,))
-    cur.execute("INSERT INTO sensor (type, id_gateway) VALUES (%s, %s)", ("cardiaque", 1))
-    conn.commit()
     print("Table created")
 else:
     print(tables)
+
+cur.execute("INSERT INTO users (first_name, last_name, email, phone_number) VALUES (%s,%s,%s,%s)", ("Gautier", "Bonnemaison", "gautier.bonnemaison@gmail.com", "1111111111"))
+cur.execute("INSERT INTO pathology (name, description, id_user) VALUES (%s,%s,%s)", ("Anomalie cardiaque", "Bonjour", 1))
+cur.execute("INSERT INTO contact (first_name, last_name, email, phone_number, relationship, id_user) VALUES (%s,%s,%s,%s,%s,%s)", ("François", "Rault", "francois.rlt@orange.fr", "0000000000", "Friend", 1))
+cur.execute("INSERT INTO house (adresse, city, zip_code, id_user) VALUES (%s,%s,%s,%s)", ("Champ de Mars, 5 Avenue Anatole France", "Paris", "75007", 1))
+cur.execute("INSERT INTO gateway (id_house) VALUES (%s)", (1,))
+cur.execute("INSERT INTO sensor (type, id_gateway) VALUES (%s, %s)", ("cardiaque", 1))
+conn.commit()
 
 
         
