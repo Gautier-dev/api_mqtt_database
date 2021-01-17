@@ -18,7 +18,7 @@ try:
     conn = psycopg2.connect(dbname=os.environ['DBNAME'], user=os.environ['POSTGRES_USER'],
                             password=os.environ['POSTGRES_PASSWORD'], host=os.environ['URL_DB'], port="5432")
 except psycopg2.OperationalError as e:
-    print(e.pgerror)
+    print(e)
 
 # Cursor used to perform database operation
 cur = conn.cursor()
