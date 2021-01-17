@@ -16,6 +16,7 @@ print(os.environ['DBNAME'])
 print(os.environ['POSTGRES_USER'])
 print(os.environ['POSTGRES_PASSWORD'])
 print(os.environ['URL_DB'])
+print(os.environ['DBPORT'])
 # Connect to our postgre database
 try:
     conn = psycopg2.connect(dbname=os.environ['DBNAME'], user=os.environ['POSTGRES_USER'],
