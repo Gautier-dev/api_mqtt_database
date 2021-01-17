@@ -73,7 +73,7 @@ client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
 
-client.connect(os.environ['URL_MQTT'], int(os.environ['PORT_MQTT']), 60)
+client.connect("srv-captain--surveillancedevieux-mqtt2", int(os.environ['PORT_MQTT']), 60)
 
 # Blocking call that processes network traffic, dispatches callbacks and
 # handles reconnecting.
