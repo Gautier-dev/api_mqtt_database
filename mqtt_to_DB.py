@@ -20,7 +20,7 @@ try:
 except psycopg2.OperationalError as e:
     print("Unable to connect")
     print(e)
-
+print("Connected to Postgresql !")
 # Cursor used to perform database operation
 cur = conn.cursor()
 cur.execute("SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema';")   
