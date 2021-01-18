@@ -65,7 +65,7 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     print("Inserted the following data, "+str(msg.payload)+" from "+msg.topic+" into the DB")
     # Add a value into the database
-    cur.execute("INSERT INTO measure (data, date, id_sensor) VALUES (%s,%s,%s)", (str(msg.payload), str(datetime.datetime.now()), 1))
+    cur.execute("INSERT INTO measure (data, date, id_sensor) VALUES (%s,%s,%s)", (str(msg.payload), str(datetime.datetime.now())[:18], 1))
     # Make it persistent
     conn.commit()
 
